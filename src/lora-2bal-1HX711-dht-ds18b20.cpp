@@ -2,6 +2,8 @@
 /*
 fonctionne correctement
 ------------************************
+dernier essai
+
 pour les balances, cablage des connecteurs étanches
 cordon crème et plat
 noire   A,B+
