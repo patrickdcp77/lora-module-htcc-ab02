@@ -1,7 +1,7 @@
 
 /*
 fonctionne correctement
-
+------------************************
 pour les balances, cablage des connecteurs étanches
 cordon crème et plat
 noire   A,B+
@@ -423,7 +423,7 @@ void setup() {
 }
 ////////////////////////////////////////////////////////////
 
-
+Lo
 
 ////////////////////////////////////////////////////////////
 void loop()
