@@ -1,6 +1,6 @@
 
 /*
-fonctionne correctement
+fonctionne correctement???????
 ------------************************
 dernier essai
 
@@ -28,11 +28,7 @@ vue eu U inversé
 fils noirs des jauges relient les jauges E- avec AB-  et AB+ avec E+
 fils blancs des jauges telient E- avec AB+    et AB- avec E+
 
-
-
 */
-
-
 #include "LoRaWan_APP.h"
 #include "Arduino.h"
 
@@ -42,7 +38,6 @@ fils blancs des jauges telient E- avec AB+    et AB- avec E+
 OneWire oneWire(ADC3);
 DallasTemperature ds(&oneWire);
 
-
 //les température humidité
 #include <DHT.h>
 #include <DHT_U.h>
@@ -50,29 +45,18 @@ DallasTemperature ds(&oneWire);
 #define DHTTYPE DHT22 
 DHT dht(DHTPIN, DHTTYPE); 
 
-float humidite;
-float temperature;
-
-
-
-
-
 //la balance.
 //le module LORA a une sortie Vext sur laquelle on peut mettre l'alimentation des capteurs
 //on met Vext à LOW pour alimenter et à HIGH pour couper l'alimentation
 //par rapport au master de Sylvain, j'ai donc effacé la gestion de l'alimentation via une PIN spécialement dédiée
 #include "HX711.h"
 HX711 Hx711_N1;  
-
 #define PIN_HX711_N1_DATA_OUT GPIO6 // connexion au DATA
 #define PIN_HX711_N1_SCK_AND_POWER_DOWN GPIO7// connexion à l'horloge SCK
-
 float offset_HX711_N1_ChannelA;
 float offset_HX711_N1_ChannelB;
 
 const unsigned int Weight_sensitivity = 4 ;
-
-
 
 /*
  * set LoraWan_RGB to Active,the RGB active in loraWan
@@ -92,8 +76,8 @@ uint8_t appEui[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 /*décommenter les modules à programmer */
 
 //lora-01
-//uint8_t devEui[] = { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x05, 0xB1, 0xE8 };
-//uint8_t appKey[] = { 0x64, 0x15, 0x08, 0x32, 0x47, 0x90, 0x93, 0x43, 0x1D, 0x26, 0xB5, 0xFD, 0x34, 0xF8, 0xF0, 0xB8 };
+uint8_t devEui[] = { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x05, 0xB1, 0xE8 };
+uint8_t appKey[] = { 0x64, 0x15, 0x08, 0x32, 0x47, 0x90, 0x93, 0x43, 0x1D, 0x26, 0xB5, 0xFD, 0x34, 0xF8, 0xF0, 0xB8 };
 
 //lora-02 GPS
 //uint8_t devEui[] = { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x05, 0xB1, 0xE9 };
@@ -128,8 +112,8 @@ uint8_t appEui[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 //uint8_t appKey[] = { 0x1C, 0x92, 0x06, 0x95, 0xD4, 0x03, 0xF4, 0x34, 0xC6, 0x60, 0xB8, 0xC4, 0xFD, 0x90, 0xA2, 0x8D };
 
 //lora-10
-uint8_t devEui[] = { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x05, 0xB1, 0xE7 };
-uint8_t appKey[] = { 0xAD, 0x07, 0x52, 0x8F, 0x33, 0x61, 0xBC, 0x9B, 0xDD, 0x28, 0x54, 0x93, 0x35, 0x4A, 0x35, 0x29 };
+//uint8_t devEui[] = { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x05, 0xB1, 0xE7 };
+//uint8_t appKey[] = { 0xAD, 0x07, 0x52, 0x8F, 0x33, 0x61, 0xBC, 0x9B, 0xDD, 0x28, 0x54, 0x93, 0x35, 0x4A, 0x35, 0x29 };
 
 
 /* ABP para*/
@@ -148,7 +132,7 @@ LoRaMacRegion_t loraWanRegion = ACTIVE_REGION;
 DeviceClass_t  loraWanClass = LORAWAN_CLASS;
 
 /*the application data transmission duty cycle.  value in [ms].*/
-uint32_t appTxDutyCycle = 900000;//////////////à modifier pour changer cycle d'envoi à TTN  900 000 = 15mn
+uint32_t appTxDutyCycle = 60000;//900000;//////////////à modifier pour changer cycle d'envoi à TTN  900 000 = 15mn
 
 /*OTAA or ABP*/
 bool overTheAirActivation = LORAWAN_NETMODE;
@@ -219,68 +203,49 @@ static void prepareTxFrame( uint8_t port )
   */
   pinMode(Vext, OUTPUT);
   digitalWrite(Vext, LOW);// pour activer l'alimentation des capteurs branchés dur Vext
-  delay(500);
+  delay(3000);
 
   // DHT22 température et humidité locales
-
-
   Serial.println("DHTxx test!");
-
-  delay(1000);
-  dht.begin(); 
-  
-  delay(1000);//pour laisser le temps de montée de la sonde
-  float h = dht.readHumidity();  
-  delay(1000);
-  // Read temperature as Celsius
+  dht.begin();
+  delay(3000);//pour laisser le temps de montée de la sonde
+  float h = dht.readHumidity();
+  //Read temperature as Celsius
   float t = dht.readTemperature();
   int8_t  t_byte = (t + 35 )*2;      //  à mieux commenter
   uint8_t h_byte = h*2;              // à mieux commenter
-
-    
-  Serial.print("Temperature: "); 
-  Serial.print(t);
-  Serial.print(" *C  ");
-  Serial.print(t_byte,HEX);
-  Serial.print(" Byte   ");
-  Serial.print("Humidity : "); 
-  Serial.print(h);
-  Serial.print(" %\t  ");
-  Serial.print(h_byte,HEX);
-  Serial.println(" Byte   ");
-                    
-                    
-
-
   
   //sonde dc18b20 en externe******************************
-  
   Serial.println("ds18b20 test!");
-
   delay(1000);  
-  
   ds.begin();          // sonde activée
-
   delay(1000);
   ds.requestTemperatures();
   int tDs = ds.getTempCByIndex(0);
-  int8_t  tDs_byte = (tDs + 35 )*2;
-
+  int8_t  tDs_byte = (tDs + 35 )*2;//sur node red on fait ensuite l'inverse
   
   Serial.print(tDs);
-  Serial.println( " C  ");
+  Serial.println( " C DS18B20  ");
   Serial.print(tDs_byte,HEX);
-  Serial.println(" Byte   ");
+  Serial.println(" Byte DS18B20   ");
+
+  Serial.print(t);
+  Serial.println( " C DHT  ");
+  Serial.print(t_byte,HEX);
+  Serial.println(" Byte DHT   ");
+
+  Serial.print(h);
+  Serial.println( " hum DHT  ");
+  Serial.print(h_byte,HEX);
+  Serial.println(" Byte DHT   ");
 
   //la tension batterie
   uint16_t batteryVoltage = getBatteryVoltage();
   Serial.print(batteryVoltage);
   Serial.println( " mV ");
 
-
   //les balances*******************************************************
   
-    
   float Sample_weight;
     
   Hx711_N1.begin(PIN_HX711_N1_DATA_OUT,PIN_HX711_N1_SCK_AND_POWER_DOWN,64 );
@@ -313,9 +278,7 @@ static void prepareTxFrame( uint8_t port )
 
   unsigned int Weight_HX711_N1_Channel_B = Sample_weight;
 
-
-
-  Serial.print("Weight N1 Channel A : ");
+  Serial.print("Weight N1 Channel A en DEC, HEX et BIN: ");
   Serial.print(Weight_HX711_N1_Channel_A,DEC);
   Serial.print(" "); 
   Serial.print(Weight_HX711_N1_Channel_A,HEX);
@@ -325,8 +288,7 @@ static void prepareTxFrame( uint8_t port )
 
   Serial.println();
 
-
-  Serial.print("Weight N1 Channel B : ");
+  Serial.print("Weight N1 Channel B en DEC, HEX et BIN: ");
   Serial.print(Weight_HX711_N1_Channel_B,DEC);
   Serial.print(" "); 
   Serial.print(Weight_HX711_N1_Channel_B,HEX);
@@ -336,23 +298,17 @@ static void prepareTxFrame( uint8_t port )
 
   Serial.println();
                   
-  
-
-
-
-
-
-
   appDataSize = 12;// nombre total d'octets de la trame envoyée
   //et à changer selon le nombre de balances et capteurs
 
   appData[0] = (uint8_t)(batteryVoltage>>8);
   appData[1] = (uint8_t)batteryVoltage;
 
+    
   appData[2] = (uint8_t)(t_byte>>8);
   appData[3] = (uint8_t)t_byte;
 
-
+    
   appData[4] = (uint8_t)(h_byte>>8);
   appData[5] = (uint8_t)h_byte;
 
@@ -365,26 +321,19 @@ static void prepareTxFrame( uint8_t port )
   appData[10] = (uint8_t)(Weight_HX711_N1_Channel_B>>8);
   appData[11] = (uint8_t)Weight_HX711_N1_Channel_B;
 
-
-  digitalWrite(Vext, HIGH); // pour déconnecter les capteurs branchés dur Vext
+  digitalWrite(Vext, HIGH); // pour déconnecter les capteurs branchés sur Vext
   
 }
 ////////////////////////////////////////////////////////////
 
-
-
-
-
-////////////////////////////////////////////////////////////
 void setup() {
 	Serial.begin(9600);
+
 #if(AT_SUPPORT)
 	enableAt();
 #endif
 	deviceState = DEVICE_STATE_INIT;
 	LoRaWAN.ifskipjoin();
-
-
 
   pinMode(Vext, OUTPUT);
   digitalWrite(Vext, LOW);// pour activer l'alimentation des capteurs branchés dur Vext
@@ -409,18 +358,19 @@ void setup() {
   Serial.println();
 
   Serial.flush() ;
-
-
   
   //après initialisation, attente 10 secondes la mise éventuelle d'un poids 
   //pour vérifier fonctionnement de la balance sur un terminal
 
-  Serial.println("  attente 10 secondes la mise éventuelle d'un poids  ");
+  Serial.println("  attente 10 secondes pour la mise éventuelle d'un poids  ");
+  Serial.println("  puis appel de la fonction lecture des 1ères données  ");
+  Serial.println("  puis et envoi immédiat à LORA et mise en sommeil 1/4h  ");
   delay(10000);
+
+
 
   prepareTxFrame( appPort );// la fonction est appelée et redonne toutes les mesures  
   
-
   digitalWrite(Vext, HIGH); // pour déconnecter les capteurs branchés dur Vext  
 }
 ////////////////////////////////////////////////////////////

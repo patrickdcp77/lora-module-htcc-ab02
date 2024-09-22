@@ -49,6 +49,7 @@ DallasTemperature ds(&oneWire);
 
 
 //les température humidité
+#include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
 #define DHTPIN GPIO5    // Changer le pin sur lequel est branché le DHT
@@ -96,7 +97,7 @@ float offset_HX711_N4_ChannelA;
 
 const unsigned int Weight_sensitivity = 4 ;
 // DEBUG_MODE  mettre à zéro en mode normal pour moins consommer*************************
-boolean DEBUG_MODE =0; // =1 or debug , then ALLOW BLINKING LED and statement on Serial Monitor throught SERIAL RX/TX UART0  
+boolean DEBUG_MODE =1; // =1 or debug , then ALLOW BLINKING LED and statement on Serial Monitor throught SERIAL RX/TX UART0  
 
 
 /*
