@@ -24,7 +24,7 @@ uint32_t devAddr =  ( uint32_t )0x007e6ae1;
 /*LoraWan channelsmask, default channels 0-7*/ 
 uint16_t userChannelsMask[6] = { 0x00FF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 };
 
-/*LoraWan region, select in arduino IDE tools*///////////////////////
+/*LoraWan region, select in arduino IDE tools*/*********************************************
 LoRaMacRegion_t loraWanRegion = ACTIVE_REGION;
 
 /*LoraWan Class, Class A and Class C are supported*/
