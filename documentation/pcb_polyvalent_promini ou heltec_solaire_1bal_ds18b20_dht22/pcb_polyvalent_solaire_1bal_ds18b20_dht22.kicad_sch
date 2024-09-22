@@ -1486,7 +1486,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 721f287a-1a5e-4516-875e-98ac08544409)
   )
-  (text "Heltec Lora\nalimenté par son propre connecteur lié à la batterie\nsortie VEXT alimente tous les capteurs\nsd18b20 Data ADC3, power VEXT\nbal Data D6, power VEXT, SCK D7\n\n\n"
+  (text "Heltec Lora\nalimenté par son propre connecteur lié à la batterie\nsortie VEXT alimente tous les capteurs\nsd18b20 Data ADC3, power VEXT\nbal Data D6, power VEXT, SCK D7\nbrancher la pile sur J14 qui est lui même lié à J8 où est connecté le HELTEC\n\n\n"
     (at 45.72 180.34 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 80e6b7b8-4c3d-4604-a433-d6ce613f334d)
