@@ -7,7 +7,7 @@
 OneWire oneWire(ADC3);
 DallasTemperature ds(&oneWire);
 
-// Paramètre debugg pour contrôler les print
+// Paramètre debugg pour contrôler les print**
 int debugg = 0; //1 // Mettre à 0 pour désactiver les print, 1 pour les activer
 
 /* OTAA para c'est ce OTAA paramêtre qui est utilisé */
